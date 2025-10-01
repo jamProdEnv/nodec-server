@@ -1,0 +1,38 @@
+
+services:
+  chat-database:
+    image: mongo
+    container_name: chat-database
+    # environment:
+    #   MONGO_INITDB_ROOT_USERNAME: root
+    #   MONGO_INITDB_ROOT_PASSWORD: eroot
+    ports:
+      - "27017:27017"
+    networks:
+      - chat-network
+
+  node-cserver:
+    build:
+      context: .
+      dockerfile: Dockerfile
+       # Dockerfile in the parent folder or adjust path if needed
+       
+    container_name: node-cserver
+    environment:
+      - PORT=3000
+      - DATABASE_URL=mongodb://chat-database:27017/chat
+    ports:
+      - "3000:3000"
+    # environment:
+    #   MONGO_URI: mongodb://root:example@mongo:27017/chat
+    depends_on:
+      - chat-database
+    networks:
+      - chat-network
+
+volumes:
+  mongo-data:
+
+networks:
+  chat-network:
+    driver: bridge
