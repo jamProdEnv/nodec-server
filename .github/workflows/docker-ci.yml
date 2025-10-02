@@ -49,15 +49,15 @@ jobs:
       #         --name node-app \
       #         -p 3000:3000 \
       #         devjam12/node-server:latest
-      - name: Test SSH connection
-        uses: appleboy/ssh-action@v0.1.7
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ubuntu
-          key: ${{ secrets.EC2_SSH_KEY }}
-          port: 22
-          script: |
-            echo "SSH connection successful"
-            whoami
-            hostname
+      # - name: Test SSH connection
+      #   uses: appleboy/ssh-action@v0.1.7
+      #   with:
+      #     host: ${{ secrets.EC2_HOST }}
+      #     username: ubuntu
+      #     key: ${{ secrets.EC2_SSH_KEY }}
+      #     port: 22
+      #     script: |
+      #       echo "SSH connection successful"
+      #       whoami
+      #       hostname
 
