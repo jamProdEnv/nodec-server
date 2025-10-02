@@ -33,19 +33,31 @@ jobs:
         run: docker push devjam12/node-server:latest
 
       # 6. Deploy to EC2
-      - name: Deploy to EC2
+      # - name: Deploy to EC2
+      #   uses: appleboy/ssh-action@v0.1.7
+      #   with:
+      #     host: ${{ secrets.EC2_HOST }}
+      #     username: ubuntu
+      #     key: ${{ secrets.EC2_SSH_KEY }}
+      #     script: |
+      #       # Stop & remove existing node container
+      #       docker stop node-app || true
+      #       docker rm node-app || true
+
+      #       # Run Node app container
+      #       docker run -d \
+      #         --name node-app \
+      #         -p 3000:3000 \
+      #         devjam12/node-server:latest
+      - name: Test SSH connection
         uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
           script: |
-            # Stop & remove existing node container
-            docker stop node-app || true
-            docker rm node-app || true
+            echo "SSH connection successful"
+            whoami
+            hostname
 
-            # Run Node app container
-            docker run -d \
-              --name node-app \
-              -p 3000:3000 \
-              devjam12/node-server:latest
